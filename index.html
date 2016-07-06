@@ -1,0 +1,55 @@
+<html>
+	<head>
+		<title>
+			Code Brain
+		</title>
+		<link rel="stylesheet" href="ui/styles.css" />
+		<script src="scripts/game.js" type="text/javascript"></script>
+	</head>
+	<body onload="load()">
+		<table border="2">
+			<tr>
+				<td colspan="4">
+					<div class="shine">
+						codeBrain
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3" >
+					Activity log here.
+					<table border="1" width="100%">
+						<tr>
+							<td width="15%">
+								Activity No.
+							</td>
+							<td width="100%">
+								Activity details
+							</td>
+						</tr>
+					</table>
+				</td>
+				<td colspan="1" width="25%">
+					<u>
+						<b>
+							Program List
+						</b>
+					</u>
+					<br>
+					Insert script to generate programs here.
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<form>
+						<input type="text" name="userCommand" id="userCommandInput" style="width:80%" onkeydown="checkCommandInput()"/>
+						<input type="submit" value="Send Command" onclick="sendCommand()"/>
+					</form>
+				</td>
+				<td colspan="1" id="status">
+					Ready.
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>
