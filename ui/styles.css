@@ -33,3 +33,11 @@ table
         background-position: top right;
     }
 }
+
+#activityLog {
+	vertical-align: top;
+	overflow: auto;
+	height: 400px;
+	width: 100%;
+	display: inline-block;
+}
