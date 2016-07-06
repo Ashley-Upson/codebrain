@@ -9,6 +9,21 @@ function checkCommandInput() {
 	}
 }
 
+function addActivity(command) {
+	"use strict";
+	var receivedCommand = command,
+		currentActivities = document.getElementById("activityLog").innerHTML,
+		newActivityLog = currentActivities + "<br>" + receivedCommand;
+	document.getElementById("activityLog").innerHTML = newActivityLog;
+}
+
+
 function sendCommand() {
+	"use strict";
+	var commandSent = document.getElementById("userCommandInput").value;
+	addActivity(commandSent);
+}
+
+function load() {
 	"use strict";
 }

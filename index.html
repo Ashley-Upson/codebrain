@@ -20,11 +20,14 @@
 					Activity log here.
 					<table border="1" width="100%">
 						<tr>
-							<td width="15%">
-								Activity No.
-							</td>
-							<td width="100%">
-								Activity details
+							<td>
+								<center id="activityLog">
+									<u>
+										<b>
+											Activity Log
+										</b>
+									</u>
+								</center>
 							</td>
 						</tr>
 					</table>
@@ -41,10 +44,8 @@
 			</tr>
 			<tr>
 				<td colspan="3">
-					<form>
 						<input type="text" name="userCommand" id="userCommandInput" style="width:80%" onkeydown="checkCommandInput()"/>
 						<input type="submit" value="Send Command" onclick="sendCommand()"/>
-					</form>
 				</td>
 				<td colspan="1" id="status">
 					Ready.
