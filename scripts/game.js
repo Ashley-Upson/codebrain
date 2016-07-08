@@ -28,6 +28,18 @@ function randomBetween(min, max) {
 	return (Math.floor(Math.random() * max) + 1);
 }
 
+function timer(seconds) {
+	"use strict";
+	var timeLeft = seconds;
+	if (timeLeft === 0) {
+		clearInterval(timer);
+	} else {
+		setInterval(function () {
+			timer(timeLeft - 1);
+		}, 1000);
+	}
+}
+
 function scan(userCommand) {
 	"use strict";
 	var ip1 = randomBetween(1, 255),
@@ -36,16 +48,38 @@ function scan(userCommand) {
 		ip4 = randomBetween(1, 255),
 		ipAddress = ip1.toString() + "." + ip2.toString() + "." + ip3.toString() + "." + ip4.toString(),
 		index = 0;
-	if (userCommand === "scan();") {
+	if (userCommand === "scan();") { // Control Server
 		addActivity("Scanning for IP addresses.", "console");
 		ipTable[ipTable.length] = ipAddress;
+		timer(5);
 		addActivity("Found an IP address: " + ipAddress, "console");
-	} else if (userCommand === "list();") {
+	} else if (userCommand === "list();") { // Display player botnet
+		timer(5);
 		addActivity("Listing IP addresses.", "console");
 		while (index < ipTable.length) {
 			addActivity(ipTable[index], "console");
 			index = index + 1;
 		}
+	} else if (userCommand === "firewall();") { // Player firewall
+		addActivity("Player Firewall.", "console");
+	} else if (userCommand === "anti-virus();") { // Player anti-virus
+		addActivity("Player Anti-virus.", "console");
+	} else if (userCommand === "decrypt();") { // Player decryption algorithm
+		addActivity("Player Decryption Algorithm.", "console");
+	} else if (userCommand === "bot();") { // Player bot program
+		addActivity("Player Bot Program.", "console");
+	} else if (userCommand === "control();") { // Player server
+		addActivity("Player Control Server.", "console");
+	} else if (userCommand === "botnet();") { // Player botnet efficiency
+		addActivity("Player Botnet efficiency.", "console");
+	} else if (userCommand === "trojan();") { // Player trojan to attack enemy firewall
+		addActivity("Firewall Attack Program.", "console");
+	} else if (userCommand === "malware();") { // Player malware to attack enemy anti-virus
+		addActivity("Anti-virus Attack Program.", "console");
+	} else if (userCommand === "attack_botnet();") { // Player program to attack the enemy botnet and sieze control of it
+		addActivity("Botnet attack Program.", "console");
+	} else if (userCommand === "hack();") { // Take enemy BrainCoins
+		addActivity("Wiring enemy BrainCoins to Player Account.", "console");
 	} else {
 		addActivity("Command: '" + userCommand + "' not known. Terminating.", "console");
 	}
