@@ -21,6 +21,7 @@ function addActivity(command, type) {
 		activityLogElement.innerHTML = newActivityLog;
 		activityLogElement.scrollTop = activityLogElement.scrollHeight;
 	}
+	return true;
 }
 
 function randomBetween(min, max) {
@@ -37,6 +38,7 @@ function timer(count) {
 		finish = end.setSeconds(seconds + count);
 	while (date <= finish) {
 		date = new Date();
+		console.log("iteration in the timer function");
 	}
 }
 
@@ -49,8 +51,10 @@ function scan(userCommand) {
 		ipAddress = ip1.toString() + "." + ip2.toString() + "." + ip3.toString() + "." + ip4.toString(),
 		index = 0;
 	if (userCommand === "scan();") { // Control Server
+		console.log("addActivity called.");
 		addActivity("Scanning for IP addresses.", "console");
 		ipTable[ipTable.length] = ipAddress;
+		console.log("timer called.");
 		timer(5);
 		document.getElementById("status").innerHTML = "Command Executed.";
 		addActivity("Found an IP address: " + ipAddress, "console");
