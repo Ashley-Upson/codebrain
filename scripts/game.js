@@ -28,15 +28,15 @@ function randomBetween(min, max) {
 	return (Math.floor(Math.random() * max) + 1);
 }
 
-function timer(seconds) {
+function timer(count) {
 	"use strict";
-	var timeLeft = seconds;
-	if (timeLeft === 0) {
-		clearInterval(timer);
-	} else {
-		setInterval(function () {
-			timer(timeLeft - 1);
-		}, 1000);
+	document.getElementById("status").innerHTML = "Executing Command.";
+	var date = new Date(),
+		end = new Date(),
+		seconds = date.getSeconds(),
+		finish = end.setSeconds(seconds + count);
+	while (date <= finish) {
+		date = new Date();
 	}
 }
 
@@ -52,33 +52,56 @@ function scan(userCommand) {
 		addActivity("Scanning for IP addresses.", "console");
 		ipTable[ipTable.length] = ipAddress;
 		timer(5);
+		document.getElementById("status").innerHTML = "Command Executed.";
 		addActivity("Found an IP address: " + ipAddress, "console");
 	} else if (userCommand === "list();") { // Display player botnet
-		timer(5);
+		timer(1);
+		document.getElementById("status").innerHTML = "Command Executed.";
 		addActivity("Listing IP addresses.", "console");
 		while (index < ipTable.length) {
+			timer(1);
 			addActivity(ipTable[index], "console");
 			index = index + 1;
 		}
 	} else if (userCommand === "firewall();") { // Player firewall
+		timer(5);
+		document.getElementById("status").innerHTML = "Command Executed.";
 		addActivity("Player Firewall.", "console");
 	} else if (userCommand === "anti-virus();") { // Player anti-virus
+		timer(5);
+		document.getElementById("status").innerHTML = "Command Executed.";
 		addActivity("Player Anti-virus.", "console");
 	} else if (userCommand === "decrypt();") { // Player decryption algorithm
+		timer(5);
+		document.getElementById("status").innerHTML = "Command Executed.";
 		addActivity("Player Decryption Algorithm.", "console");
 	} else if (userCommand === "bot();") { // Player bot program
+		timer(5);
+		document.getElementById("status").innerHTML = "Command Executed.";
 		addActivity("Player Bot Program.", "console");
 	} else if (userCommand === "control();") { // Player server
+		timer(5);
+		document.getElementById("status").innerHTML = "Command Executed.";
 		addActivity("Player Control Server.", "console");
 	} else if (userCommand === "botnet();") { // Player botnet efficiency
+		timer(5);
+		document.getElementById("status").innerHTML = "Command Executed.";
 		addActivity("Player Botnet efficiency.", "console");
 	} else if (userCommand === "trojan();") { // Player trojan to attack enemy firewall
+		timer(5);
+		document.getElementById("status").innerHTML = "Command Executed.";
 		addActivity("Firewall Attack Program.", "console");
 	} else if (userCommand === "malware();") { // Player malware to attack enemy anti-virus
+		timer(5);
+		document.getElementById("status").innerHTML = "Command Executed.";
 		addActivity("Anti-virus Attack Program.", "console");
 	} else if (userCommand === "attack_botnet();") { // Player program to attack the enemy botnet and sieze control of it
+		timer(5);
+		document.getElementById("status").innerHTML = "Command Executed.";
 		addActivity("Botnet attack Program.", "console");
 	} else if (userCommand === "hack();") { // Take enemy BrainCoins
+		timer(5);
+		document.getElementById("status").innerHTML = "Command Executed.";
 		addActivity("Wiring enemy BrainCoins to Player Account.", "console");
 	} else {
 		addActivity("Command: '" + userCommand + "' not known. Terminating.", "console");
