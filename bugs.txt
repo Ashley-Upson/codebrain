@@ -1,0 +1,4 @@
+FILE
+	game.js
+		timer (seconds);
+			This function seems to be taking some kind of precedence regarding execution. No matter where it is called from, any calls of this fucntion are evaluated first, completely ignoring the execution sequence defined in my code.
