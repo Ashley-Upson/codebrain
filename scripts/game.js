@@ -31,16 +31,10 @@ function randomBetween(min, max) {
 
 function scan(userCommand) {
 	"use strict";
-	var ip1 = randomBetween(1, 255),
-		ip2 = randomBetween(1, 255),
-		ip3 = randomBetween(1, 255),
-		ip4 = randomBetween(1, 255),
-		ipAddress = ip1.toString() + "." + ip2.toString() + "." + ip3.toString() + "." + ip4.toString(),
-		index = 0;
     switch (userCommand) {
     case "scan();":
-        console.log("addActivity called.");
-        ipTable[ipTable.length] = ipAddress;
+		addActivity("Scanning for IP addresses.", "console");
+		schedule(5, playerScan, null);
         break;
     case "list();":
         scanList();
@@ -91,18 +85,11 @@ function sendCommand() {
 function keyDown(event) {
 	"use strict";
 	var command = document.getElementById("userCommandInput"),
-		status = document.getElementById("status"),
 		activityLog = document.getElementById("activityLog").innerHTML;
-	if (command.value === "") {
-		status.innerHTML = "Ready.";
-	} else {
-		status.innerHTML = "Waiting for send command.";
-	}
 	if (event.key === "Enter") {
 		addActivity(command.value, "user");
 		scan(command.value);
 		command.value = "";
-		status.innerHTML = "Ready.";
 		return;
 	}
 /*	addActivity("","user");
