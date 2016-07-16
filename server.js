@@ -1,7 +1,12 @@
-var express = require("express");
-var app = express();
-app.get("/", function (req, res) {
-	res.send("hello world");
+var express = require("express"),// Require "express".
+	fs = require("fs"),// Require "fs".
+	app = express(),// Define the application variable.
+	ip = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1",// Define the IP address as either the OpenShift provided one or localhost.
+	port = process.env.OPENSHIFT_NODEJS_PORT || 8080;// Define the port as either the OpenShift provided one or 8080.
+
+app.get("/", function (request, response) {
+	
+	response.send("hello world");
 });
-var ip = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
-app.listen(3000);
+
+app.listen(ip, port);
