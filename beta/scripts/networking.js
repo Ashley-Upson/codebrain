@@ -1,3 +1,9 @@
+/*
+
+	--------
+	OLD CODE
+	--------
+
 var webSocket,
     ipAddress = "ws://localhost:8080/",
     connected = false;
@@ -36,4 +42,28 @@ function connectedToServer() {//A function to handle when the client connects to
 
 function updatePlayerInformation() {//A function to update the player information.
     if (connected) { webSocket.send(JSON.stringify(currentPlayer)); }
+}
+
+*/
+document.getElementById("serverStatus").innerHTML="networking.js loaded successfully";
+function webSocket() {
+	"use strict";
+	var ip = "127.0.0.1",
+		port = 8080;
+	if ("WebSocket" in window) {
+		var ws = new WebSocket("ws://localhost" + ":" + port + "/");// Open a new WebSocket
+		ws.onopen = function () {
+			// Web Socket is connected, send data using send()
+			ws.send("fromClient");
+		};
+		ws.onmessage = function (event) {
+			var receivedMessage = event.data;
+			document.getElementById("serverStatus").innerHTML=receivedMessage;
+		};
+		ws.onclose = function () {
+			// websocket is closed
+		};
+	} else {
+		// The browser doesn't support WebSocket
+	}
 }
