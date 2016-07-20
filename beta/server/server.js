@@ -41,7 +41,6 @@ var express = require('express'),
 /*  ---------------------------------------  */
 
 app.use(function (request, response, next) {
-	console.log('middleware');
 	request.testing = 'server';
 	return next();
 });
@@ -63,7 +62,7 @@ app.ws('/', function(ws, req) {
 		// Insert switch statement for data sent by client.
 		switch(msg){
 			case "scan();":
-				ws.send("");
+				ws.send("addActivity;console;Scanning for IP addresses.");
 			default:
 				ws.send("Command not recognised.");
 		}
