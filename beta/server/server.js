@@ -38,6 +38,37 @@ var express = require('express'),
 	---------------------------------------
 */
 
+function gameCommands(command) {
+	if(command === "scan"){
+		gameScan();
+	} else if(command === "") {
+				
+	}
+}
+
+function gameScan(){
+	
+}
+
+function parseWebSocketData(receivedData) {
+	// Data structure of all data sent to the server:
+	// {"primaryType;secondaryType;
+	/*
+		primaryType:
+			command
+			serverData
+			
+		secondaryType:
+			if primaryType === command
+				addActivity;
+				pcScan();
+				pcList();
+				pcFirewall();
+				
+				
+	*/
+}
+
 /*  ---------------------------------------  */
 
 app.use(function (request, response, next) {
@@ -59,13 +90,7 @@ app.get('/', function(request, response, next){
 app.ws('/', function(ws, req) {
 	ws.on('message', function(msg) {
 		console.log("Received data from client: " + msg);
-		// Insert switch statement for data sent by client.
-		switch(msg){
-			case "scan();":
-				ws.send("addActivity;console;Scanning for IP addresses.");
-			default:
-				ws.send("Command not recognised.");
-		}
+		parseWebSocketData(msg);// This function deals with all information recieved via websockets.
 	});
 	console.log('socket', req.testing);
 });
