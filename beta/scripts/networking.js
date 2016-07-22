@@ -45,10 +45,9 @@ function updatePlayerInformation() {//A function to update the player informatio
 }
 
 */
-document.getElementById("serverStatus").innerHTML="networking.js loaded successfully";
 function webSocket() {
 	"use strict";
-	var ip = "127.0.0.1",
+	var ip = "192.168.1.12",
 		port = 8080;
 	if ("WebSocket" in window) {
 		var ws = new WebSocket("ws://localhost" + ":" + port + "/");// Open a new WebSocket
