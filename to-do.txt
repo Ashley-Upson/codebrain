@@ -2,3 +2,5 @@ Have the player function "scan();" write to files.
 	One file containing a table of all scanned IP addresses.
 	Another holding all player information.
 
+Complete the code for server.js.
+Complete the code for networking.js.

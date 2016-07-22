@@ -1,3 +1,16 @@
+function checkData(data){
+	"use strict";
+	var currentData = data;
+	var current = currentData.substring(0, currentData.indexOf(";"));
+	if(current === "addActivity") {
+		/*
+			-	Add code to check for the type parameter of the addActivity function from the websockets
+				server.
+			-	Call addActivity with the type and messaage parameters.
+		*/
+	}
+}
+
 /*
 
 	--------
@@ -53,11 +66,13 @@ function webSocket() {
 		var ws = new WebSocket("ws://localhost" + ":" + port + "/");// Open a new WebSocket
 		ws.onopen = function () {
 			// Web Socket is connected, send data using send()
+			// Add code here to manage sending data from the client to the server
 			ws.send("fromClient");
 		};
 		ws.onmessage = function (event) {
 			var receivedMessage = event.data;
 			document.getElementById("serverStatus").innerHTML=receivedMessage;
+			
 		};
 		ws.onclose = function () {
 			// websocket is closed
