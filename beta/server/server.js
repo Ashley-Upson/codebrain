@@ -38,7 +38,7 @@ var express = require('express'),
 	---------------------------------------
 */
 
-function gameCommands(command) {
+function gameCommands(command) {// Called by parseWebSocketData - deals with commands sent by the client.
 	if(command === "scan"){
 		gameScan();
 	} else if(command === "") {
@@ -46,13 +46,59 @@ function gameCommands(command) {
 	}
 }
 
-function gameScan(){
+// All the fucnctions that are to be used by the player.
+function pcScan(){// Server logic for the player input of "scan();".
+	"use strict";
+	var 
+}
+
+function pcList() {// Server logic for the player input of "list();".
 	
 }
 
-function parseWebSocketData(receivedData) {
+function pcFirewall() {// Server logic for the player input of "firewall();".
+	
+}
+
+function pcAV() {// Server logic for the player input of "antivirus();".
+	
+}
+
+function pcDecrypt() {// Server logic for the player input of "decrypt();".
+	
+}
+
+function pcBot() {// Server logic for the player input of "bot();".
+	
+}
+
+function pcBotnet() {// Server logic for the player input of "botnet();".
+	
+}
+
+function pcAttackBotnet() {// Server logic for the player input of "attack_botnet();".
+	
+}
+
+function pcControl() {// Server logic for the player input of "control();".
+	
+}
+
+function pcTrojan() {// Server logic for the player input of "trojan();".
+	
+}
+
+function pcMalware() {// Server logic for the player input of "malware();".
+	
+}
+
+function pcHack() {// Server logic for the player input of "hack();".
+	
+}
+
+function parseWebSocketData(receivedData) {// Deals with ALL data sent from the client.
 	// Data structure of all data sent to the server:
-	// {"primaryType;secondaryType;
+	// {"primaryType;secondaryType;optionsalData"}
 	/*
 		primaryType:
 			command
@@ -64,8 +110,6 @@ function parseWebSocketData(receivedData) {
 				pcScan();
 				pcList();
 				pcFirewall();
-				
-				
 	*/
 }
 
@@ -90,7 +134,11 @@ app.get('/', function(request, response, next){
 app.ws('/', function(ws, req) {
 	ws.on('message', function(msg) {
 		console.log("Received data from client: " + msg);
-		parseWebSocketData(msg);// This function deals with all information recieved via websockets.
+		if(msg.type === "utf8") {
+			parseWebSocketData(msg.utf8Data);// This function deals with all information recieved via websockets.
+		} else {
+			
+		}
 	});
 	console.log('socket', req.testing);
 });
