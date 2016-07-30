@@ -83,6 +83,7 @@ function webSocket() {
 			console.log("Recieved data: " + receivedMessage)
 		};
 		ws.onclose = function () {
+            console.log("WebSockets disconnected.");
 			// websocket is closed
 		};
 	} else {

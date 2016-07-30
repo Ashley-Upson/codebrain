@@ -145,7 +145,6 @@ function parseWebSocketData(receivedData) {// Deals with ALL data sent from the 
 
 app.use(function (request, response, next) {
 	request.testing = 'server';
-	response.send("blah");
 	return next();
 });
  
@@ -161,17 +160,17 @@ app.get('/', function(request, response, next){
 */
 
 app.ws('/', function(ws, req) {
-	console.log(ws);
+    var clientSocket = req.socket;
 	ws.on('message', function(msg) {
 		console.log("Received data from client: " + msg);
 		parseWebSocketData(msg/* .utf8Data */);// This function deals with all information recieved via websockets.
 	});
-	console.log('socket', req.testing);
 });
 var aWss = expressWs.getWss('/');
 setInterval(function () {
   aWss.clients.forEach(function (client) {
-    client.send('hello');
+      var clientSocket = client._sender._socket;
+      client.send('hello');
   });
 }, 5000);
 
