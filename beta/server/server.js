@@ -59,7 +59,8 @@ function pcScan(){// Server logic for the player input of "scan();".
 		ip3 = randomBetween(1, 255),
 		ip4 = randomBetween(1, 255),
 		ipAddress = ip1.toString() + "." + ip2.toString() + "." + ip3.toString() + "." + ip4.toString();
-	ws.send("pcScan;" + ipAddress);
+	// This was just "ws" at one point
+	expressWs.send("pcScan;" + ipAddress);
 }
 
 function pcList() {// Server logic for the player input of "list();".
@@ -121,11 +122,18 @@ function parseWebSocketData(receivedData) {// Deals with ALL data sent from the 
 				pcList;
 				pcFirewall;
 	*/
+	console.log(receivedData);
 	var firstSemiColon = receivedData.indexOf(";"),
 		primaryType = receivedData.substring(0,firstSemiColon),
-		currentData = receivedData.substring(firstSemiColon + 1),
-		nextSemiColon = currentData.indexOf(";"),
-		secondaryType = currentData.substring(1,nextSemiColon);
+		currentData = receivedData.substring(firstSemiColon + 1, receivedData.length),
+		nextSemiColon = currentData.indexOf(";") || receivedData.length -1,
+		secondaryType = currentData,
+		all = primaryType + " ... " + secondaryType;
+	console.log(secondaryType);
+	console.log(aWss.clients)
+	//Won't work. As you can clearly see in the GitHub code they defined aWss.
+	//Oh yeah...
+	
 	if(primaryType === "command"){
 		if(secondaryType === "pcScan"){
 			pcScan();
@@ -137,6 +145,7 @@ function parseWebSocketData(receivedData) {// Deals with ALL data sent from the 
 
 app.use(function (request, response, next) {
 	request.testing = 'server';
+	response.send("blah");
 	return next();
 });
  
@@ -152,16 +161,19 @@ app.get('/', function(request, response, next){
 */
 
 app.ws('/', function(ws, req) {
+	console.log(ws);
 	ws.on('message', function(msg) {
 		console.log("Received data from client: " + msg);
-		if(msg.type === "utf8") {
-			parseWebSocketData(msg.utf8Data);// This function deals with all information recieved via websockets.
-		} else {
-			
-		}
+		parseWebSocketData(msg/* .utf8Data */);// This function deals with all information recieved via websockets.
 	});
 	console.log('socket', req.testing);
 });
- 
+var aWss = expressWs.getWss('/');
+setInterval(function () {
+  aWss.clients.forEach(function (client) {
+    client.send('hello');
+  });
+}, 5000);
+
 app.listen(8080);
 console.log("Executed all code.");

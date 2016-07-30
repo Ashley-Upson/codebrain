@@ -80,6 +80,7 @@ function webSocket() {
 		ws.onmessage = function (event) {
 			var receivedMessage = event.data;
 			checkData(receivedMessage);
+			console.log("Recieved data: " + receivedMessage)
 		};
 		ws.onclose = function () {
 			// websocket is closed
