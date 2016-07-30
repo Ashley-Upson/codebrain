@@ -38,9 +38,14 @@ var express = require('express'),
 	---------------------------------------
 */
 
+function randomBetween(min, max) {
+	"use strict";
+	return (Math.floor(Math.random() * max) + 1);
+}
+
 function gameCommands(command) {// Called by parseWebSocketData - deals with commands sent by the client.
 	if(command === "scan"){
-		gameScan();
+		pcScan();
 	} else if(command === "") {
 				
 	}
@@ -49,7 +54,12 @@ function gameCommands(command) {// Called by parseWebSocketData - deals with com
 // All the fucnctions that are to be used by the player.
 function pcScan(){// Server logic for the player input of "scan();".
 	"use strict";
-	var 
+	var ip1 = randomBetween(1, 255),
+		ip2 = randomBetween(1, 255),
+		ip3 = randomBetween(1, 255),
+		ip4 = randomBetween(1, 255),
+		ipAddress = ip1.toString() + "." + ip2.toString() + "." + ip3.toString() + "." + ip4.toString();
+	ws.send("pcScan;" + ipAddress);
 }
 
 function pcList() {// Server logic for the player input of "list();".
@@ -107,10 +117,20 @@ function parseWebSocketData(receivedData) {// Deals with ALL data sent from the 
 		secondaryType:
 			if primaryType === command
 				addActivity;
-				pcScan();
-				pcList();
-				pcFirewall();
+				pcScan;
+				pcList;
+				pcFirewall;
 	*/
+	var firstSemiColon = receivedData.indexOf(";"),
+		primaryType = receivedData.substring(0,firstSemiColon),
+		currentData = receivedData.substring(firstSemiColon + 1),
+		nextSemiColon = currentData.indexOf(";"),
+		secondaryType = currentData.substring(1,nextSemiColon);
+	if(primaryType === "command"){
+		if(secondaryType === "pcScan"){
+			pcScan();
+		}
+	}
 }
 
 /*  ---------------------------------------  */
@@ -144,3 +164,4 @@ app.ws('/', function(ws, req) {
 });
  
 app.listen(8080);
+console.log("Executed all code.");

@@ -1,3 +1,5 @@
+var ws;
+
 function checkData(data){
 	"use strict";
 	var currentData = data;
@@ -8,6 +10,10 @@ function checkData(data){
 				server.
 			-	Call addActivity with the type and messaage parameters.
 		*/
+	} else if(current === "pcScan"){
+		var ipToAdd = data.substring(data.indexOf(";") + 1);
+		ipTable[ipTable.length] = ipToAdd;
+		addActivity("console","Ip address found: " + ipToAdd);
 	}
 }
 
@@ -58,21 +64,22 @@ function updatePlayerInformation() {//A function to update the player informatio
 }
 
 */
+console.log("Websocket Code executing.");
 function webSocket() {
 	"use strict";
-	var ip = "192.168.1.12",
+	var ip = "127.0.0.1",
 		port = 8080;
 	if ("WebSocket" in window) {
-		var ws = new WebSocket("ws://localhost" + ":" + port + "/");// Open a new WebSocket
+		ws = new WebSocket("ws://localhost" + ":" + port + "/");// Open a new WebSocket
 		ws.onopen = function () {
 			// Web Socket is connected, send data using send()
 			// Add code here to manage sending data from the client to the server
-			ws.send("fromClient");
+			console.log("Websockets connected.");
+			document.getElementById("serverStatus").innerHTML = "Connected to WS";
 		};
 		ws.onmessage = function (event) {
 			var receivedMessage = event.data;
-			document.getElementById("serverStatus").innerHTML=receivedMessage;
-			
+			checkData(receivedMessage);
 		};
 		ws.onclose = function () {
 			// websocket is closed
@@ -81,3 +88,5 @@ function webSocket() {
 		// The browser doesn't support WebSocket
 	}
 }
+webSocket();
+console.log("Executed websocket code.");

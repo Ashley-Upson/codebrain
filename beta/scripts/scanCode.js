@@ -3,7 +3,7 @@ function displayEntry(index) {
     addActivity(ipTable[index], "console");
 }
 
-var clientID = Math.random(18).substring(0, 15);
+// var clientID = Math.random(18).substring(0, 15);
 
 function playerScan(){
 	"use strict";

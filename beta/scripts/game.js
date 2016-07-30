@@ -34,7 +34,8 @@ function scan(userCommand) {
     switch (userCommand) {
     case "scan();":
 		addActivity("Scanning for IP addresses.", "console");
-		schedule(5, playerScan, null);
+		// schedule(5, playerScan, null);
+		ws.send("command;pcScan");
         break;
     case "list();":
         scanList();
