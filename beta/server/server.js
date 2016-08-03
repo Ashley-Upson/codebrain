@@ -30,7 +30,8 @@ console.log(ip + ":" + port);
 
 var express = require('express'),
 	app = express(),
-	expressWs = require('express-ws')(app);
+	expressWs = require('express-ws')(app),
+	dataToSend;
  
 /*
 	---------------------------------------
@@ -60,7 +61,8 @@ function pcScan(){// Server logic for the player input of "scan();".
 		ip4 = randomBetween(1, 255),
 		ipAddress = ip1.toString() + "." + ip2.toString() + "." + ip3.toString() + "." + ip4.toString();
 	// This was just "ws" at one point
-	expressWs.send("pcScan;" + ipAddress);
+	//expressWs.send("pcScan;" + ipAddress);
+	dataToSend = "pcScan;" + ipAddress;
 }
 
 function pcList() {// Server logic for the player input of "list();".
@@ -168,10 +170,15 @@ app.ws('/', function(ws, req) {
 });
 var aWss = expressWs.getWss('/');
 setInterval(function () {
-  aWss.clients.forEach(function (client) {
-      var clientSocket = client._sender._socket;
-      client.send('hello');
-  });
+	aWss.clients.forEach(function (client) {
+		var clientSocket = client._sender._socket;
+		if(dataToSend === null) {
+			// Do nothing
+		} else {
+			client.send(dataToSend);
+			dataToSend = null;
+		}
+	});
 }, 5000);
 
 app.listen(8080);
