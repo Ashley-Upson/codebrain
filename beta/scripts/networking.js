@@ -1,94 +1,38 @@
-var ws;
-
-function checkData(data){
-	"use strict";
-	var currentData = data;
-	var current = currentData.substring(0, currentData.indexOf(";"));
-	if(current === "addActivity") {
-		/*
-			-	Add code to check for the type parameter of the addActivity function from the websockets
-				server.
-			-	Call addActivity with the type and messaage parameters.
-		*/
-	} else if(current === "pcScan"){
-		var ipToAdd = data.substring(data.indexOf(";") + 1);
-		ipTable[ipTable.length] = ipToAdd;
-		addActivity("Ip address found: " + ipToAdd, "console");
+var ws;// Variable to hold the WebSockets
+function checkData(data){// A function to work with data recieved from the server
+	"use strict";// Check code against established coding standards
+	var currentData = data,// A variable to hold the current set of data being handled
+		current = currentData.substring(0, currentData.indexOf(";"));// Variable to hold the current data to work with
+	if(current === "addActivity") {// Code to deal with the first section of the response data being "addActivity"
+		/**
+		 *	-	Add code to check for the type parameter of the addActivity function from the websockets
+		 *		server.
+		 *	-	Call addActivity with the type and messaage parameters.
+		 */
+	} else if(current === "pcScan"){// Code to deal with the first section of the response data being "pcScan"
+		var ipToAdd = data.substring(data.indexOf(";") + 1);// IP address taken from the response data
+		ipTable[ipTable.length] = ipToAdd;// Add the IP sent in the response data to the local ipTable
+		addActivity("Ip address found: " + ipToAdd, "console");// Output to the user that the IP address has been found
 	}
 }
-
-/*
-
-	--------
-	OLD CODE
-	--------
-
-var webSocket,
-    ipAddress = "ws://localhost:8080/",
-    connected = false;
-
-function connect() {//A function which will allow the player to connect to a server.
-    "use strict";
-    webSocket = new WebSocket (ipAddress);//Create a new web socket to connect to a WebSocket server.
-    webSocket.onopen = connectedToServer;//Set a function to handle when the client has connected to the server.
-    webSocket.onmessage = recieveMessageFromServer;//Set a function to handle when the client has recieved data from the server.
-    webSocket.onclose = serverClosed;//Set a function to handle when the client is disconnected from the WebSocket server.
-}
-
-function serverClosed() {
-    connected = false;//Set the variable connected to false so the client knows it isn't connected to a WebSocket server.
-}
-
-function recieveMessageFromServer(event) {//A function designed to handle data retrieved from the server.
-    "use strict";
-    var recievedObjectData = JSON.parse(event.data),//Parse the JSON data sent from the server.
-        i = 0;//A variable to hold the current index in the array.
-    players = [];//Reset the list of players.
-    for (i = 0 ; i < recievedObjectData.length; i = i + 1) {//Go through the list of object data recieved.
-        if (recievedObjectData[i].objectType == "player") {//If the current item in the list is a player.
-            if (recievedObjectData[i].objectID !== currentPlayer.objectID) {//If it isn't the current player.
-                players.push(recievedObjectData[i]);//Push the data to the list of players..
-            }
-        }
-    }
-    players.push(currentPlayer);
-}
-
-function connectedToServer() {//A function to handle when the client connects to the server.
-    "use strict";
-    connected = true;//Set a variable to indicate that the client has successfully connected to the WebSockets server.
-}
-
-function updatePlayerInformation() {//A function to update the player information.
-    if (connected) { webSocket.send(JSON.stringify(currentPlayer)); }
-}
-
-*/
-console.log("Websocket Code executing.");
-function webSocket() {
-	"use strict";
-	var ip = "127.0.0.1",
-		port = 8080;
-	if ("WebSocket" in window) {
+function webSocket() {// Function dealing with the main WebSocket code
+	"use strict";// Check code against established coding standards
+	var ip = "127.0.0.1",// Define the IP of the server
+		port = 8080;// Define the port of the server
+	if ("WebSocket" in window) {// Check to see if the browser supports WebSockets
 		ws = new WebSocket("ws://localhost" + ":" + port + "/");// Open a new WebSocket
-		ws.onopen = function () {
-			// Web Socket is connected, send data using send()
-			// Add code here to manage sending data from the client to the server
-			console.log("Websockets connected.");
-			document.getElementById("serverStatus").innerHTML = "Connected to WS";
+		ws.onopen = function () {// Code to be executed when a WebSocket is opened
+			document.getElementById("serverStatus").innerHTML = "Connected to WS";// Tell the client it is connected to the server
 		};
-		ws.onmessage = function (event) {
-			var receivedMessage = event.data;
-			checkData(receivedMessage);
-			console.log("Recieved data: " + receivedMessage)
+		ws.onmessage = function (event) {// Code to be executed when the client recieves data from the server
+			var receivedMessage = event.data;// Variable to hold the data recieved from the server
+			checkData(receivedMessage);// Pass the data recieved from the server to the function dealing with all responses
 		};
-		ws.onclose = function () {
-            console.log("WebSockets disconnected.");
-			// websocket is closed
+		ws.onclose = function () {// Code to be executed when the WebSocket is closed
+			document.getElementById("serverStatus").innerHTML = "Not connected to WS";// The the client it is no longer connected to the server
 		};
-	} else {
-		// The browser doesn't support WebSocket
+	} else {// If the browser does not support WebSocket
+		/* Nothing can be done. Game will not work */
 	}
 }
-webSocket();
-console.log("Executed websocket code.");
+webSocket();// Call the function that deals with all the WebSocket
