@@ -4,15 +4,13 @@ var express = require('express'),// Require the "express" module
 	dataToSend,// Variable to hold the data that is to be sent to the client
 	clientToRecieve;// Variable to hold the client ID for the response
 /**
- *	---------------------------------------
  *	INSERT CODE FOR ALL GAME FUNCTIONS HERE
- *	---------------------------------------
  */
 function randomBetween(min, max) {// Function to generate a random number between min and max inclusive
 	"use strict";// Check the code against established coding standards
 	return (Math.floor(Math.random() * max) + 1);// Generate and return the random number
 }
-function gameCommands(command) {// Function to deal with commands sent by the client - called by ParseWebSocketData
+function gameCommands(command) {// Function to deal with commands sent by the client - called by parseWebSocketData
 	if(command === "scan"){// If the command recieved is "scan"
 		pcScan();// Call the function relevant to the client command
 	} else if(command === "") {// If the command recieved is ""
@@ -93,8 +91,6 @@ function parseWebSocketData(receivedData, client) {// Deals with ALL data reciev
 		nextSemiColon = currentData.indexOf(";") || receivedData.length -1,
 		secondaryType = currentData,
 		all = primaryType + " ... " + secondaryType;
-	console.log(secondaryType);
-	console.log(aWss.clients);
 	if(primaryType === "command"){
 		if(secondaryType === "pcScan"){
 			pcScan(client);
@@ -111,15 +107,12 @@ app.get('/', function(request, response, next){
 	response.end();
 });
 /**
- *	-------------------------------------------------------
- *	| This function deals with data sent from the client. |
- *	-------------------------------------------------------
+ *	This function deals with data sent from the client.
  */
 app.ws('/', function(ws, req) {
     var clientSocket = req.socket;
 	ws.on('message', function(msg) {
-		console.log("Received data from client: " + msg);
-		parseWebSocketData(msg/* .utf8Data */);// This function deals with all information recieved via websockets.
+		parseWebSocketData(msg);// This function deals with all information recieved via websockets.
 	});
 });
 var aWss = expressWs.getWss('/');
@@ -129,8 +122,10 @@ setInterval(function () {
 		if(dataToSend === null) {
 			// Do nothing
 		} else {
-			client.send(dataToSend);
-			dataToSend = null;
+			if(client === clientToRecieve){
+				client.send(dataToSend);
+				dataToSend = null;
+			}
 		}
 	});
 }, 5000);
