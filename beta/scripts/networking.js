@@ -1,4 +1,5 @@
-var ws;// Variable to hold the WebSockets
+var ws,// Variable to hold the WebSockets
+	clientID = (Math.random(18).toString()).substring(2);// Generate an ID for the client
 function checkData(data){// A function to work with data recieved from the server
 	"use strict";// Check code against established coding standards
 	var currentData = data,// A variable to hold the current set of data being handled
