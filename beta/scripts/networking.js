@@ -1,20 +1,26 @@
-var ws,// Variable to hold the WebSockets
-	clientID = (Math.random(18).toString()).substring(2);// Generate an ID for the client
-function checkData(data){// A function to work with data recieved from the server
+var ws;// Variable to hold the WebSockets
+
+function checkData(data) {// A function to work with data recieved from the server
 	"use strict";// Check code against established coding standards
 	var currentData = data,// A variable to hold the current set of data being handled
 		current = currentData.substring(0, currentData.indexOf(";"));// Variable to hold the current data to work with
-	if(current === "addActivity") {// Code to deal with the first section of the response data being "addActivity"
+	if (current === "addActivity") {// Code to deal with the first section of the response data being "addActivity"
 		/**
 		 *	-	Add code to check for the type parameter of the addActivity function from the websockets
 		 *		server.
 		 *	-	Call addActivity with the type and messaage parameters.
 		 */
-	} else if(current === "pcScan"){// Code to deal with the first section of the response data being "pcScan"
+	} else if (current === "pcScan") {// Code to deal with the first section of the response data being "pcScan"
 		var ipToAdd = data.substring(data.indexOf(";") + 1);// IP address taken from the response data
 		ipTable[ipTable.length] = ipToAdd;// Add the IP sent in the response data to the local ipTable
 		addActivity("Ip address found: " + ipToAdd, "console");// Output to the user that the IP address has been found
 	}
+}
+function send(msg) {
+	"use strict";
+	var data = clientID + "-" + msg;
+	console.log(data);
+	ws.send(data);// Send msg to the server, along with the clientID
 }
 function webSocket() {// Function dealing with the main WebSocket code
 	"use strict";// Check code against established coding standards
@@ -36,4 +42,5 @@ function webSocket() {// Function dealing with the main WebSocket code
 		/* Nothing can be done. Game will not work */
 	}
 }
-webSocket();// Call the function that deals with all the WebSocket
+
+webSocket(); // Call the function that deals with all the WebSocket

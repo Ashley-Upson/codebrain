@@ -1,4 +1,5 @@
-var ipTable = ["127.0.0.1"];
+var ipTable = ["127.0.0.1"],
+	clientID = Math.random().toString(36);// Generate an ID for the client
 
 function addActivity(command, type) {
 	"use strict";
@@ -35,7 +36,7 @@ function scan(userCommand) {
     case "scan();":
 		addActivity("Scanning for IP addresses.", "console");
 		// schedule(5, playerScan, null);
-		ws.send("command;pcScan");
+		send("command;pcScan");
         break;
     case "list();":
         scanList();

@@ -11,9 +11,10 @@ function randomBetween(min, max) {// Function to generate a random number betwee
 	return (Math.floor(Math.random() * max) + 1);// Generate and return the random number
 }
 function gameCommands(command) {// Function to deal with commands sent by the client - called by parseWebSocketData
-	if(command === "scan"){// If the command recieved is "scan"
+	"use strict";// Check the code against established coding standards
+	if (command === "scan") {// If the command recieved is "scan"
 		pcScan();// Call the function relevant to the client command
-	} else if(command === "") {// If the command recieved is ""
+	} else if (command === "") {// If the command recieved is ""
 		//Call the fucntion relevant to the client command 
 	}
 }
@@ -22,7 +23,7 @@ function pcScan(client){// Server logic for the player input of "scan();".
 	"use strict";// Check the code against established coding standards
 	var ip1 = randomBetween(1, 255),// Generate the first section of the IP address
 		ip2 = randomBetween(1, 255),// Generate the second section of the IP address
-		ip3 = randomBetween(1, 255),.// Generate the third section of the IP address
+		ip3 = randomBetween(1, 255),// Generate the third section of the IP address
 		ip4 = randomBetween(1, 255),// Generate the fourth section of the IP address
 		ipAddress = ip1.toString() + "." + ip2.toString() + "." + ip3.toString() + "." + ip4.toString();// Create the whole generated IP address
 	dataToSend = "pcScan;" + ipAddress;// Set the data to be sent to the client
@@ -84,13 +85,13 @@ function parseWebSocketData(receivedData, client) {// Deals with ALL data reciev
 	 *				pcMalware;
 	 *				pcHack;
 	 */
-	console.log(receivedData);
-	var firstSemiColon = receivedData.indexOf(";"),
-		primaryType = receivedData.substring(0,firstSemiColon),
-		currentData = receivedData.substring(firstSemiColon + 1, receivedData.length),
+	console.log(receivedData + " From client: " + client);
+	var data = receivedData.substring(receivedData.indexOf("-") + 1),
+		firstSemiColon = data.indexOf(";"),
+		primaryType = data.substring(0,firstSemiColon),
+		currentData = data.substring(firstSemiColon + 1, receivedData.length),
 		nextSemiColon = currentData.indexOf(";") || receivedData.length -1,
-		secondaryType = currentData,
-		all = primaryType + " ... " + secondaryType;
+		secondaryType = currentData;
 	if(primaryType === "command"){
 		if(secondaryType === "pcScan"){
 			pcScan(client);
@@ -112,7 +113,9 @@ app.get('/', function(request, response, next){
 app.ws('/', function(ws, req) {
     var clientSocket = req.socket;
 	ws.on('message', function(msg) {
-		parseWebSocketData(msg);// This function deals with all information recieved via websockets.
+		var clientFromMsg = msg.substring(0, msg.indexOf("-"));// Variable containing the client ID, sent by the client
+		message = msg.substring(msg.indexOf("-") + 1);// Take the data sent after the clientID and stroe it here
+		parseWebSocketData(message, clientFromMsg);// This function deals with all information recieved via websockets.
 	});
 });
 var aWss = expressWs.getWss('/');
@@ -122,6 +125,7 @@ setInterval(function () {
 		if(dataToSend === null) {
 			// Do nothing
 		} else {
+			console.log(client._sender._socket);
 			if(client === clientToRecieve){
 				client.send(dataToSend);
 				dataToSend = null;
