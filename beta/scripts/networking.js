@@ -19,7 +19,7 @@ function checkData(data) {// A function to work with data recieved from the serv
 function send(msg) {
 	"use strict";
 	var data = clientID + "-" + msg;
-	console.log(data);
+	console.log(data);// Output the data to the console
 	ws.send(data);// Send msg to the server, along with the clientID
 }
 function webSocket() {// Function dealing with the main WebSocket code
