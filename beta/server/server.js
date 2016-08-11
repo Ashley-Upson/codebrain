@@ -3,7 +3,7 @@ var express = require('express'),// Require the "express" module
 	expressWs = require('express-ws')(app),// Require the "express-ws" module
 	dataToSend,// Variable to hold the data that is to be sent to the client
 	clientToRecieve,// Variable to hold the client ID for the response
-	jobList = [][2][1];// Array to hold all the connected clients { connectedClients[job],[clientId],[timeLeft] }
+	connectedClients = [][4];// Array to hold all the connected clients { connectedClients[serverIndex],[clientId,clientSocketData,job,timeLeft] }
 /**
  *	INSERT CODE FOR ALL GAME FUNCTIONS HERE
  */
@@ -120,18 +120,34 @@ app.ws('/', function(ws, req) {
 		parseWebSocketData(message, clientFromMsg);// This function deals with all information recieved via websockets.
 	});
 });
+connectedClients[0][2] = "TESTING";
 var aWss = expressWs.getWss('/');
 setInterval(function () {
 	aWss.clients.forEach(function (client) {
-		var clientSocket = client._sender._socket;
-		if(dataToSend === null) {
-			// Do nothing
-		} else {
-			// console.log(client._sender._socket);
-			if(clientSocket === clientToRecieve){
-				client.send(dataToSend);
-				dataToSend = null;
+		var clientSocket = client._sender._socket,// Client socket data
+			found = false,// The variable holding whether the client has been found in the array or not
+			index = 0;
+		/**
+		 * FOR REFERENCE
+		 * ---
+		 * { connectedClients[serverIndex],[clientId,clientSocketData,job,timeLeft] }
+		 */
+		for (index = 0;((index < connectedClients.length()) || (found === true));i = index + 1){// Loop through the clients array
+			if(connectedClients[i][1] === clientSocket){// Check if the clientSocket data is the one being looped through
+				found = true;// Set the found variable to true
 			}
+			// console.log(client._sender._socket);
+			if(connectedClients[i][1] === clientToRecieve){// Check if the current client being looped is the one to recieve data
+				client.send(dataToSend);// Send the data to the client
+				dataToSend = null;// Make sure there is no data left in the variable
+			}// Else do nothing
+		}
+		if(found === false){//If the client was not found in the array
+			/**
+			 * Assume the client has not connected before
+			 */
+			connectedClients[connectedClients.length()][1] = clientSocket;// Add the new client to the connectedClients array
+			console.log("New client detected. Added to connectedClients array at index: " + connectedClients.length());
 		}
 	});
 	console.log(connectedClients);// Output the clients to the console
