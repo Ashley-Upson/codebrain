@@ -120,7 +120,7 @@ app.ws('/', function(ws, req) {
 		parseWebSocketData(message, clientFromMsg);// This function deals with all information recieved via websockets.
 	});
 });
-connectedClients[0][2] = "TESTING";
+//     connectedClients[0][2] = "TESTING";
 var aWss = expressWs.getWss('/');
 setInterval(function () {
 	aWss.clients.forEach(function (client) {
@@ -146,7 +146,7 @@ setInterval(function () {
 			/**
 			 * Assume the client has not connected before
 			 */
-			connectedClients[connectedClients.length()][1] = clientSocket;// Add the new client to the connectedClients array
+			//     connectedClients[connectedClients.length()][1] = clientSocket;// Add the new client to the connectedClients array
 			console.log("New client detected. Added to connectedClients array at index: " + connectedClients.length());
 		}
 	});
